@@ -3,103 +3,313 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IT Seminar Student Registration</title>
+
+    <title>Student Registration Form</title>
+
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
+
     <main class="container">
-        <section class="card">
-            <header class="header">
-                <p class="eyebrow">LABORATORY ACTIVITY #3</p>
-                <h1>Student Registration Form</h1>
-                <p>Register for the upcoming IT seminar. All fields must be completed correctly.</p>
-            </header>
 
-            <form id="registrationForm" novalidate>
-                <div class="form-grid">
-                    <div class="field full-width">
-                        <label for="fullName">Full Name</label>
-                        <input type="text" id="fullName" name="fullName"
-                               autocomplete="name" aria-describedby="fullNameError">
-                        <p class="error" id="fullNameError" role="alert"></p>
-                    </div>
+        <div class="registration-card">
 
-                    <div class="field">
-                        <label for="studentNumber">Student Number</label>
-                        <input type="text" id="studentNumber" name="studentNumber"
-                               placeholder="24-1234-123" aria-describedby="studentNumberError">
-                        <p class="error" id="studentNumberError" role="alert"></p>
-                    </div>
+            <h1>Student Registration Form</h1>
 
-                    <div class="field">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" name="email"
-                               autocomplete="email" aria-describedby="emailError">
-                        <p class="error" id="emailError" role="alert"></p>
-                    </div>
+            <p class="description">
+                Register for the upcoming IT seminar.
+                Please complete all required fields.
+            </p>
 
-                    <div class="field">
-                        <label for="mobileNumber">Mobile Number</label>
-                        <input type="tel" id="mobileNumber" name="mobileNumber"
-                               placeholder="09171234567" aria-describedby="mobileNumberError">
-                        <p class="error" id="mobileNumberError" role="alert"></p>
-                    </div>
+            <form id="registrationForm">
 
-                    <div class="field">
-                        <label for="course">Course</label>
-                        <select id="course" name="course" aria-describedby="courseError">
-                            <option value="" selected>Select your course.</option>
-                            <option value="BSIT">BSIT</option>
-                            <option value="BSCS">BSCS</option>
-                        </select>
-                        <p class="error" id="courseError" role="alert"></p>
-                    </div>
+                <!-- Full Name -->
+                <div class="form-group">
 
-                    <div class="field">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" name="password"
-                               autocomplete="new-password" aria-describedby="passwordError passwordFeedback">
-                        <p class="feedback" id="passwordFeedback" aria-live="polite"></p>
-                        <p class="error" id="passwordError" role="alert"></p>
-                    </div>
+                    <label for="fullName">
+                        Full Name
+                    </label>
 
-                    <div class="field">
-                        <label for="confirmPassword">Confirm Password</label>
-                        <input type="password" id="confirmPassword" name="confirmPassword"
-                               autocomplete="new-password" aria-describedby="confirmPasswordError">
-                        <p class="error" id="confirmPasswordError" role="alert"></p>
-                    </div>
+                    <input
+                        type="text"
+                        id="fullName"
+                        name="fullName"
+                        required
+                        aria-describedby="fullNameError"
+                    >
 
-                    <div class="field full-width checkbox-field">
-                        <div class="checkbox-row">
-                            <input type="checkbox" id="terms" name="terms" aria-describedby="termsError">
-                            <label for="terms">I agree to the terms and conditions.</label>
-                        </div>
-                        <p class="error" id="termsError" role="alert"></p>
-                    </div>
+                    <p
+                        id="fullNameError"
+                        class="error-message"
+                        aria-live="polite"
+                    ></p>
+
                 </div>
 
-                <div class="actions">
-                    <button type="submit" id="registerBtn">Register</button>
-                    <button type="reset" id="resetBtn" class="secondary">Reset</button>
+
+                <!-- Student Number -->
+                <div class="form-group">
+
+                    <label for="studentNumber">
+                        Student Number
+                    </label>
+
+                    <input
+                        type="text"
+                        id="studentNumber"
+                        name="studentNumber"
+                        placeholder="24-1234-123"
+                        required
+                        aria-describedby="studentNumberError"
+                    >
+
+                    <p
+                        id="studentNumberError"
+                        class="error-message"
+                        aria-live="polite"
+                    ></p>
+
                 </div>
+
+
+                <!-- Email -->
+                <div class="form-group">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        required
+                        aria-describedby="emailError"
+                    >
+
+                    <p
+                        id="emailError"
+                        class="error-message"
+                        aria-live="polite"
+                    ></p>
+
+                </div>
+
+
+                <!-- Mobile Number -->
+                <div class="form-group">
+
+                    <label for="mobileNumber">
+                        Mobile Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="mobileNumber"
+                        name="mobileNumber"
+                        placeholder="09171234567"
+                        required
+                        aria-describedby="mobileNumberError"
+                    >
+
+                    <p
+                        id="mobileNumberError"
+                        class="error-message"
+                        aria-live="polite"
+                    ></p>
+
+                </div>
+
+
+                <!-- Password -->
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        required
+                        aria-describedby="passwordFeedback passwordError"
+                    >
+
+                    <p
+                        id="passwordFeedback"
+                        class="password-feedback"
+                        aria-live="polite"
+                    ></p>
+
+                    <p
+                        id="passwordError"
+                        class="error-message"
+                        aria-live="polite"
+                    ></p>
+
+                </div>
+
+
+                <!-- Confirm Password -->
+                <div class="form-group">
+
+                    <label for="confirmPassword">
+                        Confirm Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        required
+                        aria-describedby="confirmPasswordError"
+                    >
+
+                    <p
+                        id="confirmPasswordError"
+                        class="error-message"
+                        aria-live="polite"
+                    ></p>
+
+                </div>
+
+
+                <!-- Course -->
+                <div class="form-group">
+
+                    <label for="course">
+                        Course
+                    </label>
+
+                    <select
+                        id="course"
+                        name="course"
+                        required
+                        aria-describedby="courseError"
+                    >
+
+                        <option value="">
+                            Select your course
+                        </option>
+
+                        <option value="BSIT">
+                            BSIT
+                        </option>
+
+                        <option value="BSCS">
+                            BSCS
+                        </option>
+
+                    </select>
+
+                    <p
+                        id="courseError"
+                        class="error-message"
+                        aria-live="polite"
+                    ></p>
+
+                </div>
+
+
+                <!-- Terms Agreement -->
+                <div class="terms-group">
+
+                    <input
+                        type="checkbox"
+                        id="terms"
+                        name="terms"
+                        required
+                        aria-describedby="termsError"
+                    >
+
+                    <label for="terms">
+                        I agree to the terms and conditions.
+                    </label>
+
+                    <p
+                        id="termsError"
+                        class="error-message"
+                        aria-live="polite"
+                    ></p>
+
+                </div>
+
+
+                <!-- Success Message -->
+                <div
+                    id="successMessage"
+                    class="success-message"
+                    role="status"
+                    aria-live="polite"
+                ></div>
+
+
+                <!-- Registration Summary -->
+                <section
+                    id="registrationSummary"
+                    class="registration-summary"
+                    aria-live="polite"
+                >
+
+                    <h2>Registration Summary</h2>
+
+                    <p>
+                        <strong>Full Name:</strong>
+                        <span id="summaryName"></span>
+                    </p>
+
+                    <p>
+                        <strong>Student Number:</strong>
+                        <span id="summaryStudentNumber"></span>
+                    </p>
+
+                    <p>
+                        <strong>Email:</strong>
+                        <span id="summaryEmail"></span>
+                    </p>
+
+                    <p>
+                        <strong>Mobile Number:</strong>
+                        <span id="summaryMobileNumber"></span>
+                    </p>
+
+                    <p>
+                        <strong>Course:</strong>
+                        <span id="summaryCourse"></span>
+                    </p>
+
+                </section>
+
+
+                <!-- Buttons -->
+                <div class="button-group">
+
+                    <button
+                        type="submit"
+                        id="registerBtn"
+                    >
+                        Register
+                    </button>
+
+                    <button
+                        type="reset"
+                        id="resetBtn"
+                    >
+                        Reset
+                    </button>
+
+                </div>
+
             </form>
 
-            <div id="successMessage" class="success" role="status" aria-live="polite"></div>
+        </div>
 
-            <section id="registrationSummary" class="summary" aria-labelledby="summaryTitle" hidden>
-                <h2 id="summaryTitle">Registration Summary</h2>
-                <dl>
-                    <div><dt>Full Name</dt><dd id="summaryName"></dd></div>
-                    <div><dt>Student Number</dt><dd id="summaryStudentNumber"></dd></div>
-                    <div><dt>Email</dt><dd id="summaryEmail"></dd></div>
-                    <div><dt>Mobile Number</dt><dd id="summaryMobileNumber"></dd></div>
-                    <div><dt>Course</dt><dd id="summaryCourse"></dd></div>
-                </dl>
-            </section>
-        </section>
     </main>
 
+
     <script src="js/app.js"></script>
+
 </body>
-</html
+</html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration Form</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <main class="container">
+
+        <section class="card">
+
+            <h1>Student Registration Form</h1>
+
+            <p class="intro">
+                Register for the upcoming IT seminar.
+                Please complete all required fields.
+            </p>
+
+            <form id="registrationForm" novalidate>
+
+                <!-- Full Name -->
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+
+                    <input
+                        type="text"
+                        id="fullName"
+                        name="fullName"
+                        autocomplete="name"
+                        required
+                        aria-describedby="fullNameError"
+                    >
+
+                    <p
+                        id="fullNameError"
+                        class="error-message"
+                        role="alert"
+                    ></p>
+                </div>
+
+                <!-- Student Number -->
+                <div class="form-group">
+                    <label for="studentNumber">Student Number</label>
+
+                    <input
+                        type="text"
+                        id="studentNumber"
+                        name="studentNumber"
+                        placeholder="24-1234-123"
+                        required
+                        aria-describedby="studentNumberError"
+                    >
+
+                    <p
+                        id="studentNumberError"
+                        class="error-message"
+                        role="alert"
+                    ></p>
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        autocomplete="email"
+                        placeholder="student@example.com"
+                        required
+                        aria-describedby="emailError"
+                    >
+
+                    <p
+                        id="emailError"
+                        class="error-message"
+                        role="alert"
+                    ></p>
+                </div>
+
+                <!-- Mobile Number -->
+                <div class="form-group">
+                    <label for="mobileNumber">Mobile Number</label>
+
+                    <input
+                        type="tel"
+                        id="mobileNumber"
+                        name="mobileNumber"
+                        placeholder="09171234567"
+                        required
+                        aria-describedby="mobileNumberError"
+                    >
+
+                    <p
+                        id="mobileNumberError"
+                        class="error-message"
+                        role="alert"
+                    ></p>
+                </div>
+
+                <!-- Password -->
+                <div class="form-group">
+                    <label for="password">Password</label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        autocomplete="new-password"
+                        required
+                        aria-describedby="passwordError passwordFeedback"
+                    >
+
+                    <p
+                        id="passwordFeedback"
+                        class="password-feedback"
+                    ></p>
+
+                    <p
+                        id="passwordError"
+                        class="error-message"
+                        role="alert"
+                    ></p>
+                </div>
+
+                <!-- Confirm Password -->
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        autocomplete="new-password"
+                        required
+                        aria-describedby="confirmPasswordError"
+                    >
+
+                    <p
+                        id="confirmPasswordError"
+                        class="error-message"
+                        role="alert"
+                    ></p>
+                </div>
+
+                <!-- Course -->
+                <div class="form-group">
+                    <label for="course">Course</label>
+
+                    <select
+                        id="course"
+                        name="course"
+                        required
+                        aria-describedby="courseError"
+                    >
+                        <option value="">Select your course</option>
+                        <option value="BSIT">BSIT</option>
+                        <option value="BSCS">BSCS</option>
+                    </select>
+
+                    <p
+                        id="courseError"
+                        class="error-message"
+                        role="alert"
+                    ></p>
+                </div>
+
+                <!-- Terms -->
+                <div class="terms-group">
+
+                    <input
+                        type="checkbox"
+                        id="terms"
+                        name="terms"
+                        required
+                        aria-describedby="termsError"
+                    >
+
+                    <label for="terms">
+                        I agree to the terms and conditions.
+                    </label>
+
+                    <p
+                        id="termsError"
+                        class="error-message"
+                        role="alert"
+                    ></p>
+
+                </div>
+
+                <!-- Success Message -->
+                <div
+                    id="successMessage"
+                    class="success-message"
+                    role="status"
+                    aria-live="polite"
+                ></div>
+
+                <!-- Registration Summary -->
+                <section
+                    id="registrationSummary"
+                    class="summary"
+                    aria-live="polite"
+                >
+                    <h2>Registration Summary</h2>
+
+                    <p>
+                        <strong>Full Name:</strong>
+                        <span id="summaryName"></span>
+                    </p>
+
+                    <p>
+                        <strong>Student Number:</strong>
+                        <span id="summaryStudentNumber"></span>
+                    </p>
+
+                    <p>
+                        <strong>Email:</strong>
+                        <span id="summaryEmail"></span>
+                    </p>
+
+                    <p>
+                        <strong>Mobile Number:</strong>
+                        <span id="summaryMobileNumber"></span>
+                    </p>
+
+                    <p>
+                        <strong>Course:</strong>
+                        <span id="summaryCourse"></span>
+                    </p>
+                </section>
+
+                <!-- Buttons -->
+                <div class="button-group">
+
+                    <button
+                        type="submit"
+                        id="registerBtn"
+                    >
+                        Register
+                    </button>
+
+                    <button
+                        type="reset"
+                        id="resetBtn"
+                    >
+                        Reset
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+
+    <script src="js/app.js"></script>
+
+</body>
+</html>

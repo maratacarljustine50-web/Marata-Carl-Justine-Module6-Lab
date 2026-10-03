@@ -1,41 +1,26 @@
-// =====================================================
-// PURE VALIDATION FUNCTIONS
-// These functions do not access document or window.
-// They are safe for automated Node.js tests.
-// =====================================================
-
 function isValidStudentNumber(value) {
-    const trimmedValue = value.trim();
-
-    return /^\d{2}-\d{4}-\d{3}$/.test(trimmedValue);
+    return /^\d{2}-\d{4}-\d{3}$/.test(String(value).trim());
 }
-
 
 function isValidPassword(value) {
-    const trimmedValue = value.trim();
-
-    return (
-        trimmedValue.length >= 8 &&
-        /[A-Z]/.test(trimmedValue) &&
-        /\d/.test(trimmedValue) &&
-        /[@$!]/.test(trimmedValue) &&
-        !/\s/.test(trimmedValue)
-    );
+    const password = String(value);
+    return password.length >= 8 &&
+        /[A-Z]/.test(password) &&
+        /\d/.test(password) &&
+        /[@$!]/.test(password) &&
+        !/\s/.test(password);
 }
 
-
-// =====================================================
-// DOM CODE
-// Only runs when document is available.
-// This keeps the file compatible with Node.js tests.
-// =====================================================
+if (typeof module !== "undefined" && module.exports) {
+    module.exports = {
+        isValidStudentNumber,
+        isValidPassword
+    };
+}
 
 if (typeof document !== "undefined") {
-
     document.addEventListener("DOMContentLoaded", function () {
-
         const form = document.getElementById("registrationForm");
-
         const fullName = document.getElementById("fullName");
         const studentNumber = document.getElementById("studentNumber");
         const email = document.getElementById("email");
@@ -45,328 +30,216 @@ if (typeof document !== "undefined") {
         const course = document.getElementById("course");
         const terms = document.getElementById("terms");
 
-        const fullNameError = document.getElementById("fullNameError");
-        const studentNumberError = document.getElementById("studentNumberError");
-        const emailError = document.getElementById("emailError");
-        const mobileNumberError = document.getElementById("mobileNumberError");
-        const passwordError = document.getElementById("passwordError");
-        const confirmPasswordError = document.getElementById("confirmPasswordError");
-        const courseError = document.getElementById("courseError");
-        const termsError = document.getElementById("termsError");
+        const successMessage = document.getElementById("successMessage");
+        const registrationSummary = document.getElementById("registrationSummary");
 
-        const passwordFeedback =
-            document.getElementById("passwordFeedback");
+        const summaryName = document.getElementById("summaryName");
+        const summaryStudentNumber = document.getElementById("summaryStudentNumber");
+        const summaryEmail = document.getElementById("summaryEmail");
+        const summaryMobileNumber = document.getElementById("summaryMobileNumber");
+        const summaryCourse = document.getElementById("summaryCourse");
 
-        const successMessage =
-            document.getElementById("successMessage");
+        const passwordFeedback = document.getElementById("passwordFeedback");
 
-        const registrationSummary =
-            document.getElementById("registrationSummary");
+        const errorIds = {
+            fullName: "fullNameError",
+            studentNumber: "studentNumberError",
+            email: "emailError",
+            mobileNumber: "mobileNumberError",
+            password: "passwordError",
+            confirmPassword: "confirmPasswordError",
+            course: "courseError",
+            terms: "termsError"
+        };
 
-        const summaryName =
-            document.getElementById("summaryName");
-
-        const summaryStudentNumber =
-            document.getElementById("summaryStudentNumber");
-
-        const summaryEmail =
-            document.getElementById("summaryEmail");
-
-        const summaryMobileNumber =
-            document.getElementById("summaryMobileNumber");
-
-        const summaryCourse =
-            document.getElementById("summaryCourse");
-
-
-        // =================================================
-        // HELPER FUNCTIONS
-        // =================================================
-
-        function setError(field, errorElement, message) {
+        function setError(field, message) {
+            const errorElement = document.getElementById(errorIds[field]);
+            const control = document.getElementById(field);
 
             errorElement.textContent = message;
-
-            field.setAttribute("aria-invalid", "true");
-
-            field.setAttribute(
-                "aria-describedby",
-                errorElement.id
-            );
+            control.setAttribute("aria-invalid", message ? "true" : "false");
         }
 
-
-        function clearError(field, errorElement) {
-
-            errorElement.textContent = "";
-
-            field.setAttribute("aria-invalid", "false");
+        function clearError(field) {
+            setError(field, "");
         }
-
 
         function validateFullName() {
-
             const value = fullName.value.trim();
 
-            if (value.length < 2) {
-
-                setError(
-                    fullName,
-                    fullNameError,
-                    "Enter your full name with at least two characters."
-                );
-
+            if (value.length === 0) {
+                setError("fullName", "Full name is required.");
                 return false;
             }
 
-            clearError(fullName, fullNameError);
+            if (value.length < 2) {
+                setError("fullName", "Enter at least two characters for your full name.");
+                return false;
+            }
 
+            clearError("fullName");
             return true;
         }
-
 
         function validateStudentNumber() {
-
             const value = studentNumber.value.trim();
 
-            if (!isValidStudentNumber(value)) {
-
-                setError(
-                    studentNumber,
-                    studentNumberError,
-                    "Enter a student number in the format 24-1234-123."
-                );
-
+            if (value === "") {
+                setError("studentNumber", "Student number is required.");
                 return false;
             }
 
-            clearError(studentNumber, studentNumberError);
+            if (!isValidStudentNumber(value)) {
+                setError("studentNumber", "Enter a student number in the format 24-1234-123.");
+                return false;
+            }
 
+            clearError("studentNumber");
             return true;
         }
-
 
         function validateEmail() {
-
             const value = email.value.trim();
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-            const emailPattern =
-                /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (value === "") {
+                setError("email", "Email address is required.");
+                return false;
+            }
 
             if (!emailPattern.test(value)) {
-
-                setError(
-                    email,
-                    emailError,
-                    "Enter a valid email address such as student@example.com."
-                );
-
+                setError("email", "Enter a valid email address with a domain and dot.");
                 return false;
             }
 
-            clearError(email, emailError);
-
+            clearError("email");
             return true;
         }
-
 
         function validateMobileNumber() {
-
             const value = mobileNumber.value.trim();
+            const mobilePattern = /^(09\d{9}|\+639\d{9})$/;
 
-            const mobilePattern =
-                /^(09\d{9}|\+639\d{9})$/;
+            if (value === "") {
+                setError("mobileNumber", "Mobile number is required.");
+                return false;
+            }
 
             if (!mobilePattern.test(value)) {
-
-                setError(
-                    mobileNumber,
-                    mobileNumberError,
-                    "Enter 09 followed by nine digits or +639 followed by nine digits. No spaces or hyphens."
-                );
-
+                setError("mobileNumber", "Enter 09 followed by nine digits or +639 followed by nine digits.");
                 return false;
             }
 
-            clearError(mobileNumber, mobileNumberError);
-
+            clearError("mobileNumber");
             return true;
         }
-
 
         function validatePassword() {
-
-            const value = password.value;
-
-            if (!isValidPassword(value)) {
-
-                setError(
-                    password,
-                    passwordError,
-                    "Password must have at least 8 characters, one uppercase letter, one digit, and one of @, $, or !, with no spaces."
-                );
-
-                return false;
-            }
-
-            clearError(password, passwordError);
-
-            return true;
-        }
-
-
-        function validateConfirmPassword() {
-
-            const value = confirmPassword.value;
-
-            if (value !== password.value || value === "") {
-
-                setError(
-                    confirmPassword,
-                    confirmPasswordError,
-                    "Confirm password must match the password exactly."
-                );
-
-                return false;
-            }
-
-            clearError(
-                confirmPassword,
-                confirmPasswordError
-            );
-
-            return true;
-        }
-
-
-        function validateCourse() {
-
-            if (
-                course.value !== "BSIT" &&
-                course.value !== "BSCS"
-            ) {
-
-                setError(
-                    course,
-                    courseError,
-                    "Please select BSIT or BSCS."
-                );
-
-                return false;
-            }
-
-            clearError(course, courseError);
-
-            return true;
-        }
-
-
-        function validateTerms() {
-
-            if (!terms.checked) {
-
-                setError(
-                    terms,
-                    termsError,
-                    "You must agree to the terms and conditions."
-                );
-
-                return false;
-            }
-
-            clearError(terms, termsError);
-
-            return true;
-        }
-
-
-        function updatePasswordFeedback() {
-
             const value = password.value;
 
             if (value === "") {
+                setError("password", "Password is required.");
+                return false;
+            }
 
+            if (!isValidPassword(value)) {
+                setError(
+                    "password",
+                    "Password must be at least 8 characters, include an uppercase letter, a digit, and @, $, or !, with no spaces."
+                );
+                return false;
+            }
+
+            clearError("password");
+            return true;
+        }
+
+        function updatePasswordFeedback() {
+            const value = password.value;
+
+            if (value === "") {
                 passwordFeedback.textContent = "";
-
                 return;
             }
 
-            const requirements = [];
-
-            if (value.length < 8) {
-                requirements.push("at least 8 characters");
-            }
-
-            if (!/[A-Z]/.test(value)) {
-                requirements.push("one uppercase letter");
-            }
-
-            if (!/\d/.test(value)) {
-                requirements.push("one digit");
-            }
-
-            if (!/[@$!]/.test(value)) {
-                requirements.push("one of @, $, or !");
-            }
-
-            if (/\s/.test(value)) {
-                requirements.push("no spaces");
-            }
-
-            if (requirements.length === 0) {
-
-                passwordFeedback.textContent =
-                    "Password meets all requirements.";
-
+            if (isValidPassword(value)) {
+                passwordFeedback.textContent = "Password meets all requirements.";
             } else {
-
                 passwordFeedback.textContent =
-                    "Password needs: " +
-                    requirements.join(", ") +
-                    ".";
+                    "Password needs 8+ characters, one uppercase letter, one digit, one of @, $, !, and no spaces.";
             }
         }
 
+        function validateConfirmPassword() {
+            const value = confirmPassword.value;
 
-        function clearAllErrors() {
+            if (value === "") {
+                setError("confirmPassword", "Please confirm your password.");
+                return false;
+            }
 
-            clearError(fullName, fullNameError);
-            clearError(studentNumber, studentNumberError);
-            clearError(email, emailError);
-            clearError(mobileNumber, mobileNumberError);
-            clearError(password, passwordError);
-            clearError(confirmPassword, confirmPasswordError);
-            clearError(course, courseError);
-            clearError(terms, termsError);
+            if (value !== password.value) {
+                setError("confirmPassword", "Passwords do not match.");
+                return false;
+            }
+
+            clearError("confirmPassword");
+            return true;
         }
 
+        function validateCourse() {
+            if (course.value !== "BSIT" && course.value !== "BSCS") {
+                setError("course", "Please select BSIT or BSCS.");
+                return false;
+            }
+
+            clearError("course");
+            return true;
+        }
+
+        function validateTerms() {
+            if (!terms.checked) {
+                setError("terms", "You must agree to the terms and conditions.");
+                return false;
+            }
+
+            clearError("terms");
+            return true;
+        }
 
         function clearOutput() {
-
             successMessage.textContent = "";
-            successMessage.style.display = "none";
-
-            registrationSummary.style.display = "none";
+            registrationSummary.hidden = true;
 
             summaryName.textContent = "";
             summaryStudentNumber.textContent = "";
             summaryEmail.textContent = "";
             summaryMobileNumber.textContent = "";
             summaryCourse.textContent = "";
-
-            passwordFeedback.textContent = "";
         }
 
+        function resetFeedback() {
+            Object.keys(errorIds).forEach(clearError);
+            passwordFeedback.textContent = "";
 
-        // =================================================
-        // FORM SUBMISSION
-        // =================================================
-
-        form.addEventListener("submit", function (event) {
-
-            event.preventDefault();
+            [
+                fullName,
+                studentNumber,
+                email,
+                mobileNumber,
+                password,
+                confirmPassword,
+                course,
+                terms
+            ].forEach(function (control) {
+                control.setAttribute("aria-invalid", "false");
+            });
 
             clearOutput();
+        }
+
+        form.addEventListener("submit", function (event) {
+            event.preventDefault();
 
             const validFullName = validateFullName();
             const validStudentNumber = validateStudentNumber();
@@ -377,177 +250,63 @@ if (typeof document !== "undefined") {
             const validCourse = validateCourse();
             const validTerms = validateTerms();
 
-            const allValid =
-                validFullName &&
-                validStudentNumber &&
-                validEmail &&
-                validMobileNumber &&
-                validPassword &&
-                validConfirmPassword &&
-                validCourse &&
-                validTerms;
-
-
-            if (!allValid) {
-
+            if (
+                !validFullName ||
+                !validStudentNumber ||
+                !validEmail ||
+                !validMobileNumber ||
+                !validPassword ||
+                !validConfirmPassword ||
+                !validCourse ||
+                !validTerms
+            ) {
+                successMessage.textContent = "";
+                registrationSummary.hidden = true;
                 return;
             }
 
+            summaryName.textContent = fullName.value.trim();
+            summaryStudentNumber.textContent = studentNumber.value.trim();
+            summaryEmail.textContent = email.value.trim();
+            summaryMobileNumber.textContent = mobileNumber.value.trim();
+            summaryCourse.textContent = course.value;
 
-            // =============================================
-            // SUCCESS MESSAGE
-            // =============================================
-
-            successMessage.textContent =
-                "Registration details validated successfully!";
-
-            successMessage.style.display = "block";
-
-
-            // =============================================
-            // REGISTRATION SUMMARY
-            // Password is intentionally NOT displayed.
-            // =============================================
-
-            summaryName.textContent =
-                fullName.value.trim();
-
-            summaryStudentNumber.textContent =
-                studentNumber.value.trim();
-
-            summaryEmail.textContent =
-                email.value.trim();
-
-            summaryMobileNumber.textContent =
-                mobileNumber.value.trim();
-
-            summaryCourse.textContent =
-                course.value;
-
-            registrationSummary.style.display = "block";
+            successMessage.textContent = "Registration details validated successfully!";
+            registrationSummary.hidden = false;
         });
-
-
-        // =================================================
-        // FULL NAME BLUR EVENT
-        // =================================================
-
-        fullName.addEventListener("blur", function () {
-
-            fullName.value =
-                fullName.value.trim();
-
-            validateFullName();
-        });
-
-
-        // =================================================
-        // PASSWORD INPUT EVENT
-        // =================================================
 
         password.addEventListener("input", function () {
-
             updatePasswordFeedback();
-
             if (password.value !== "") {
                 validatePassword();
+            } else {
+                clearError("password");
             }
-        });
-
-
-        // =================================================
-        // CONFIRM PASSWORD INPUT EVENT
-        // =================================================
-
-        confirmPassword.addEventListener("input", function () {
 
             if (confirmPassword.value !== "") {
                 validateConfirmPassword();
             }
         });
 
+        fullName.addEventListener("blur", validateFullName);
 
-        // =================================================
-        // COURSE CHANGE EVENT
-        // =================================================
+        course.addEventListener("change", validateCourse);
 
-        course.addEventListener("change", function () {
-
-            validateCourse();
-        });
-
-
-        // =================================================
-        // TERMS CHANGE EVENT
-        // =================================================
-
-        terms.addEventListener("change", function () {
-
-            validateTerms();
-        });
-
-
-        // =================================================
-        // OTHER INPUT EVENTS
-        // =================================================
-
-        studentNumber.addEventListener("blur", function () {
-
-            studentNumber.value =
-                studentNumber.value.trim();
-
-            validateStudentNumber();
-        });
-
-
-        email.addEventListener("blur", function () {
-
-            email.value =
-                email.value.trim();
-
-            validateEmail();
-        });
-
-
-        mobileNumber.addEventListener("blur", function () {
-
-            mobileNumber.value =
-                mobileNumber.value.trim();
-
-            validateMobileNumber();
-        });
-
-
-        // =================================================
-        // RESET EVENT
-        // =================================================
+        terms.addEventListener("change", validateTerms);
 
         form.addEventListener("reset", function () {
-
-            setTimeout(function () {
-
-                clearAllErrors();
-
-                clearOutput();
-
+            window.setTimeout(function () {
+                resetFeedback();
             }, 0);
         });
 
+        [
+            [studentNumber, validateStudentNumber],
+            [email, validateEmail],
+            [mobileNumber, validateMobileNumber],
+            [confirmPassword, validateConfirmPassword]
+        ].forEach(function ([control, validator]) {
+            control.addEventListener("blur", validator);
+        });
     });
-}
-
-
-// =====================================================
-// NODE / AUTOGRADER EXPORT
-// =====================================================
-
-if (
-    typeof module !== "undefined" &&
-    module.exports
-) {
-
-    module.exports = {
-        isValidStudentNumber,
-        isValidPassword
-    };
 }

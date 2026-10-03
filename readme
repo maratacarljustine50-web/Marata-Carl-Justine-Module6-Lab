@@ -1,0 +1,15 @@
+# Student Registration Form - Laboratory Activity #3
+
+Files:
+- index.html
+- css/style.css
+- js/app.js
+- screenshots/ (add required screenshots here)
+
+Open index.html in a browser to test the activity.
+
+The JavaScript includes the required pure functions:
+- isValidStudentNumber(value)
+- isValidPassword(value)
+
+Both are exported with CommonJS when available for automated testing.
